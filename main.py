@@ -19,26 +19,6 @@ class DiscError(Exception):
 class Message(discord.DMChannel):
     discord.message
 
-@classmethod
-async def message_channel(self, ctx: commands.Context, write: str, *, loop: asyncio.BaseEventLoop = None):
-    loop = loop or asyncio.get_event_loop()
-
-    partial = functools.partial(self.discord.get_input, write, message_channel = True)
-    message = await loop.run_in_executor(None, partial)
-
-    if message is None:
-        raise DiscError('Please submit something to sell `{}`'.format(write))
-
-    if 'entries' not in message:
-        write_info = message
-    else:
-        write_info = None
-        for entry in message['entries']:
-            if entry:
-                write_info = entry
-                break
-    if write_info is None:
-        raise DiscError('Please submit something to sell `{}`'.format(write))
 
 
 # when bot is not in use
@@ -50,6 +30,14 @@ class inActiveState:
         self.current = None
         self.voice = None
         self.text = None
+
+class bank(commands.Cog):
+    def __init__(self, bot: commands.Bot, ctx: commands.Context):
+        self.bot = bot
+        self.banking = {}
+    def get_ic_amount(self, ctx: commands.Context):
+        ic_amount = 0
+        if 
         
 
 # the acutual bot
@@ -63,7 +51,7 @@ class auctioner(commands.Cog):
         state = self.text_state.get(ctx.guild.id)
         if not state:
             state = inActiveState(self.bot, ctx)
-            self.text_state[ctx.guild,id] = state
+            self.text_state[ctx.guild.id] = state
 
         return state
 
@@ -77,8 +65,8 @@ class auctioner(commands.Cog):
         ctx.text_state = self.item_for_sale(ctx)
 
         # in case of errors
-        async def cog_command_error(self, ctx: commands.Context, error: commands.CommandError):
-            await ctx.send('An error has ouccurred: {}'.format(str(error)))
+    async def cog_command_error(self, ctx: commands.Context, error: commands.CommandError):
+        await ctx.send('An error has ouccurred: {}'.format(str(error)))
 
     # @commands.command(name='join', invoke_without_subcommand=True)
     # async def _join(self, ctx: commands.Context):
