@@ -37,7 +37,6 @@ class bank(commands.Cog):
         self.banking = {}
     def get_ic_amount(self, ctx: commands.Context):
         ic_amount = 0
-        if 
         
 
 # the acutual bot
